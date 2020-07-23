@@ -1,0 +1,46 @@
+@startuml
+concise "dataBus" as db
+binary "One Wire 1" as WB
+binary "Sample" as SA
+scale 50 as 35 pixels
+
+WB is high
+SA is low
+db is x
+
+@WB
+0 is high
++200 is low
+'WB -> WB@+100 : {TR}
+
+@db
+@+0 <-> @+120 : {TR}
++0 is 1
+@WB
++20 is high
+@SA
++100 is high
++10 is low
+@WB
+400 is low
+@db
++0 is 0
+@+0 <-> @+120 : {TR}
+@SA
++120 is high
++10 is low
+@WB
+600 is high
+@db
++0 is x
+
+'db@100 <-> @150 : {TR}
+'db@200 <-> @+150 : {150 ms}
+
+@200 as :write_beg
+@220 as :write_end
+
+'highlight :write_beg to :write_end #Gold:Write
+'highlight :read_beg to :read_end #lightBlue:Read
+
+@enduml
