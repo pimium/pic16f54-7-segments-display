@@ -14,6 +14,7 @@
 #pragma config CP = OFF  // Code protection bit (Code protection off)
 
 enum states { IDLE, WAIT_FALLING_EDGE, WAIT_DATA, WAIT_HIGH_PULS };
+// static uint8_t en = 0;
 
 void main(void) {
 
@@ -23,7 +24,7 @@ void main(void) {
   PORTB = 0x00;
   TRISB = 0x00;
 
-  volatile uint8_t segments[4] = {0x40, 0xff, 0xff, 0xff};
+  uint8_t segments[4] = {0x00, 0xff, 0xff, 0xff};
   volatile uint8_t digit = 0;
   volatile enum states state = IDLE;
   volatile uint8_t count = 0;
@@ -31,11 +32,7 @@ void main(void) {
   volatile uint16_t character = 0;
   volatile uint8_t update_display = 0x00;
 
-  PORTA = 1;
-
   while (1) {
-    //
-
     if (update_display) {
       if (update_display == (segments[0] & 0x3f))
         PORTB = 0x00;
@@ -69,11 +66,8 @@ void main(void) {
       if (count == 0x3f) {
         state = IDLE;
       } else {
-
         if (char_count == 0) {
           segments[(character >> 8) & 0x03] = character & 0xff;
-          //           segments[1] = 0x23;
-          // segments[2] = character + 2;
           state = IDLE;
         }
 

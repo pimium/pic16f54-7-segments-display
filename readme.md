@@ -1,4 +1,4 @@
-# PIC16F54 7-Segments Display One Wire Driver  
+# One Wire Driver for the PIC16F54 7 segments display
 
 The Driver control the display over One Wire bus. The driver can set up the luminosity and shut-down the display. When the driver shutdown the display, the display can only be startup again from poweron or pushing the disable/enable-pin down. 
 
