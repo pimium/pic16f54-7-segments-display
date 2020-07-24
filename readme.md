@@ -22,3 +22,13 @@ The [Schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and 
 ## One Wire Protocol
 
 
+#define A ( 1 << 0)
+#define B ( 1 << 1)
+#define C ( 1 << 2)
+#define D ( 1 << 3)
+#define E ( 1 << 4)
+#define F ( 1 << 5)
+#define G ( 1 << 6)
+#define DP ( 1 << 7)
+
+https://www.electronics-tutorials.ws/blog/7-segment-display-tutorial.html
