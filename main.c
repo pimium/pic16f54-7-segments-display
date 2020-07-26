@@ -57,13 +57,13 @@ void main(void) {
       if (PORTAbits.RA3 == 0) {
         character = 0;
         char_count = 15;
-        count = 0x00;
+        count = 0x08;
         state = WAIT_DATA;
       }
 
       break;
     case WAIT_FALLING_EDGE:
-      if (count == 0x3f) {
+      if (count == 0x00) {
         state = IDLE;
       } else {
         if (char_count == 0) {
@@ -78,29 +78,31 @@ void main(void) {
           state = WAIT_DATA;
         }
 
-        count++;
+        count--;
       }
       break;
     case WAIT_HIGH_PULS:
       if (PORTAbits.RA3 != 0) {
+        count = 0x30;
         state = WAIT_FALLING_EDGE;
       } else {
 
-        if (count == 0x4f) {
+        if (count == 0x00) {
           state = IDLE;
         } else {
-          count++;
+          count--;
         }
       }
 
       break;
     case WAIT_DATA:
       if (count == 0) {
-        // PORTB ^= 0xff;
         if (PORTAbits.RA3 != 0) {
           character++;
+          count = 0x50;
           state = WAIT_FALLING_EDGE;
         } else {
+          count = 0x20;
           state = WAIT_HIGH_PULS;
         }
 

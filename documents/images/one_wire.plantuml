@@ -1,46 +1,58 @@
 @startuml
-concise "dataBus" as db
-binary "One Wire 1" as WB
-binary "Sample" as SA
-scale 50 as 35 pixels
+'clock clk with period 5
+concise "Data" as db
+binary "DIO" as dio
+binary "Sample" as st
 
-WB is high
-SA is low
 db is x
+st is low
+dio is high
 
-@WB
-0 is high
-+200 is low
-'WB -> WB@+100 : {TR}
+scale 300 as 600 pixels
 
+@0
+dio is high
+st is low
+
+@+10
+dio is low
+st is low
+db is 1
 @db
-@+0 <-> @+120 : {TR}
-+0 is 1
-@WB
-+20 is high
-@SA
-+100 is high
-+10 is low
-@WB
-400 is low
+@+0 <-> @+100 : DL
+@st
+@+0 <-> @+40 : TR
+@dio
+@+0 <-> @+10 : EN
+
+@+10
+dio is high
+
+
+@+30
+st is high
+@+1
+st is low
+
+@+59
+db is x
 @db
-+0 is 0
-@+0 <-> @+120 : {TR}
-@SA
-+120 is high
-+10 is low
-@WB
-600 is high
-@db
-+0 is x
+@+0 <-> @+30 : IL
 
-'db@100 <-> @150 : {TR}
-'db@200 <-> @+150 : {150 ms}
+@+30
+dio is low
+db is 0
+@st
+@+0 <-> @+40 : TR
+@dio
+@+0 <-> @+10 : EN
 
-@200 as :write_beg
-@220 as :write_end
+@+40
+st is high
+@+1
+st is low
 
-'highlight :write_beg to :write_end #Gold:Write
-'highlight :read_beg to :read_end #lightBlue:Read
-
+@+59
+dio is high
+db is x
 @enduml

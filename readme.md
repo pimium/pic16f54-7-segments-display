@@ -21,14 +21,49 @@ The [Schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and 
 
 ## One Wire Protocol
 
+### Bit Timing
 
-#define A ( 1 << 0)
-#define B ( 1 << 1)
-#define C ( 1 << 2)
-#define D ( 1 << 3)
-#define E ( 1 << 4)
-#define F ( 1 << 5)
-#define G ( 1 << 6)
-#define DP ( 1 << 7)
+![board](documents/images/one_wire.png)
+
+| Symbol | Parameter | Value | Unit |
+|:--------------|:-------------:|--------------:|--|
+| Links | Zentriert | Rechts | ms |
+| DL |  |  | ms |
+| IL |  |  | ms |
+| TR |  |  | ms |
+| EN |  |  | ms |
+
+### Command Operation
+
+|![board](documents/images/command.png)|
+|:--:| 
+|*image_caption*|
+
+### Registers
+
+| Adresse | Description | Default |
+|:--------------|:-------------:|--------------:|
+| 0x00 | Option | 0x00 |
+| 0x01 | Digit 1 | 0x00 |
+| 0x02 | Digit 2 | 0x00 |
+| 0x03 | Digit 3 | 0x00 |
+
+#### Option Register Bit Assignement
+
+| Bit 7 | Bit 6 | Bit 5 | Bit 4 | Bit 3 | Bit 2 | Bit 1 | Bit 0 |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| SLEEP | <t style="text-decoration:overline">EN</t> | LUM5  | LUM4  | LUM3  | LUM2  | LUM1  | LUM0  |
+
+
+#### Digit x Register Bit Assignement
+
+
+| Bit 7 | Bit 6 | Bit 5 | Bit 4 | Bit 3 | Bit 2 | Bit 1 | Bit 0 |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| DP    | G     | F  | E | D | C | B | A |
+
+![board](documents/images/cathe.jpg)
+https://www.sunfounder.com/media/wysiwyg/swatches/super-kit-v2-for-Arduino/10_7_seg_display/cathe.jpg
+
 
 https://www.electronics-tutorials.ws/blog/7-segment-display-tutorial.html
