@@ -33,17 +33,22 @@ The [Schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and 
 |:---:| 
 |*Master Write "1" Slot*|
 
+<span style="color:red"> The Timings have to be updated! Now the values are just fake values </span>
+
 | Symbol | Description | Min | Typ | Max | Unit |
 |:---:|:---|:---|:---:|---:|---:|
 | EN | Enable | 10 | 10 | 80 | ms |
 | TR | Time to read | 90 | 100 | 110 | ms |
 | TN | Time to new bit | 10| 200 | 220 | ms |
 
-**EN**: Start of new bit. 
+EN
+: Start of new bit
 
-**TR**: Time between start of EN and the remote sample the DIO
+TR
+: Time between start of EN and the remote sample the DIO
 
-**TN**: Time the remote spend wait for new Data, this should be bigger than the minimum akllowed time for EN
+TN
+: Time the remote spend wait for new Data, this should be bigger than the minimum akllowed time for EN
 
 ### Command Operation
 
@@ -69,11 +74,16 @@ This register acts as setting register.
 | | SLEEP | <t style="text-decoration:overline">EN</t> | DIM5  | DIM4  | DIM3  | DIM2  | DIM1  | DIM0  |
 | Default | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-**DIM<5-0>**: Dimmer, '0b000000' is full power and '0b111111' is dark.
+DIM<5-0>
+: Dimmer, '0b000000' is full power and '0b111111' is dark.
 
-**<t style="text-decoration:overline">EN</t>**: Writing '1' to this position will power off the segments. All segments are off, but the controller is still running.
+<t style="text-decoration:overline">EN</t>
+: Writing '1' to this position will power off the segments. All segments are off, but the controller is still running.
+: <span style="color:red"> <t style="text-decoration:overline">EN</t> isn't implemented yet! </span>
  
-**SLEEP**: The controller go in sleep. Can only be restart push the <t style="text-decoration:overline">MCLR</t> pin down. All registers will be reset to theirs default value. 
+SLEEP
+: The controller go in sleep. Can only be restart push the <t style="text-decoration:overline">MCLR</t> pin down. All registers will be reset to theirs default value. 
+
 
 #### Digit x Register Bit Assignement
 
@@ -88,4 +98,8 @@ Registers describing the segments that should light on. Writing '1' to a positio
 |:---:| 
 |*Seven Segments*|
 
+
+## To-Do
+- [ ] Implement power off the segments (Bit 6 of option register)
+- [ ] Update Bit-Timing with the right value
 
