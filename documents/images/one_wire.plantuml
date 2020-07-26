@@ -1,12 +1,12 @@
 @startuml
 'clock clk with period 5
 concise "Data" as db
-binary "DIO" as dio
-binary "Sample" as st
+robust "DIO" as dio
+robust "Sample" as st
 
 db is x
 st is low
-dio is high
+dio is low
 
 scale 300 as 600 pixels
 
