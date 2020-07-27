@@ -18,8 +18,32 @@ The "PIC16F54 7 segments display":
 
 ## Schematic
 
-The [Schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and the 
-[board](documents/images/pic16f54-7-segments-display_pcb.pdf) files 
+P.blocktext {
+    margin-left: auto;
+    margin-right: auto;
+    width: 8em
+}
+
+The [schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and the board files
+
+|![Schematic-MCU](documents/images/schematic_mcu.png) |
+|:---:| 
+|*Schematic MCU*|
+
+|![Schematic-MCU](documents/images/schematic_seven_segment.png) |
+|:---:| 
+|*Schematic Seven Segments*|
+
+|![Schematic-Programmer](documents/images/schematic_seven_prog.png) |
+|:---:| 
+|*Schematic Programmer and Header*|
+
+<p align="center">
+  <img alt="Schematic Programmer and Header" src="documents/images/schematic_seven_prog.png" width="100%">
+  <br>
+    <em>Schematic Programmer and Header</em>
+</p>
+
 
 ## One Wire Protocol
 
@@ -99,6 +123,8 @@ Registers describing the segments that should light on. Writing '1' to a positio
 
 
 ## To-Do
-- [ ] Implement power off the segments (Bit 6 of option register)
+- [x] Implement power off the segments (Bit 6 of option register)
 - [ ] Update Bit-Timing with the right value
+
+
 
