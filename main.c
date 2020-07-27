@@ -33,9 +33,17 @@ void main(void) {
   volatile uint8_t update_display = 0x00;
 
   while (1) {
-    if (update_display) {
-      if (update_display == (segments[0] & 0x3f))
+    if (segments[0] & 0x80) {
+      PORTB = 0x00;
+      SLEEP();
+    }
+
+    if (segments[0] & 0x40) {
+      PORTB = 0x00;
+    } else if (update_display) {
+      if (update_display == (segments[0] & 0x3f)) {
         PORTB = 0x00;
+      }
       update_display--;
     } else {
       PORTB = 0x00;
@@ -47,23 +55,19 @@ void main(void) {
 
     if (digit == 3)
       digit = 0;
-    if (segments[0] & 0x80) {
-      PORTB = 0x00;
-      SLEEP();
-    }
 
     switch (state) {
     case IDLE:
       if (PORTAbits.RA3 == 0) {
         character = 0;
         char_count = 15;
-        count = 0x00;
+        count = 0x08;
         state = WAIT_DATA;
       }
 
       break;
     case WAIT_FALLING_EDGE:
-      if (count == 0x3f) {
+      if (count == 0x00) {
         state = IDLE;
       } else {
         if (char_count == 0) {
@@ -78,29 +82,31 @@ void main(void) {
           state = WAIT_DATA;
         }
 
-        count++;
+        count--;
       }
       break;
     case WAIT_HIGH_PULS:
       if (PORTAbits.RA3 != 0) {
+        count = 0x30;
         state = WAIT_FALLING_EDGE;
       } else {
 
-        if (count == 0x4f) {
+        if (count == 0x00) {
           state = IDLE;
         } else {
-          count++;
+          count--;
         }
       }
 
       break;
     case WAIT_DATA:
       if (count == 0) {
-        // PORTB ^= 0xff;
         if (PORTAbits.RA3 != 0) {
           character++;
+          count = 0x50;
           state = WAIT_FALLING_EDGE;
         } else {
+          count = 0x20;
           state = WAIT_HIGH_PULS;
         }
 
