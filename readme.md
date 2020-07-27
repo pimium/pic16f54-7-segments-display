@@ -79,7 +79,6 @@ DIM<5-0>
 
 <t style="text-decoration:overline">EN</t>
 : Writing '1' to this position will power off the segments. All segments are off, but the controller is still running.
-: <span style="color:red"> <t style="text-decoration:overline">EN</t> isn't implemented yet! </span>
  
 SLEEP
 : The controller go in sleep. Can only be restart push the <t style="text-decoration:overline">MCLR</t> pin down. All registers will be reset to theirs default value. 

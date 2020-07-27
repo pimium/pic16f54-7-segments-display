@@ -33,9 +33,17 @@ void main(void) {
   volatile uint8_t update_display = 0x00;
 
   while (1) {
-    if (update_display) {
-      if (update_display == (segments[0] & 0x3f))
+    if (segments[0] & 0x80) {
+      PORTB = 0x00;
+      SLEEP();
+    }
+
+    if (segments[0] & 0x40) {
+      PORTB = 0x00;
+    } else if (update_display) {
+      if (update_display == (segments[0] & 0x3f)) {
         PORTB = 0x00;
+      }
       update_display--;
     } else {
       PORTB = 0x00;
@@ -47,10 +55,6 @@ void main(void) {
 
     if (digit == 3)
       digit = 0;
-    if (segments[0] & 0x80) {
-      PORTB = 0x00;
-      SLEEP();
-    }
 
     switch (state) {
     case IDLE:
