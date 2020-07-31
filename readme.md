@@ -19,7 +19,7 @@ The "PIC16F54 7 segments display":
 
 ## Schematic
 
-The [schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and the board files
+The [schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and the [gerber](documents/gerber.zip) files
 
 ![Schematic MCU\label{schematic_mcu}](documents/images/schematic_mcu.png){ width=80% }
 
