@@ -35,16 +35,14 @@ The [schematic](documents/images/pic16f54-7-segments-display-schematic.pdf) and 
 
 ![Master Write "1" Slot\label{bit_timing_1}](documents/images/bit_timing_1.png){ width=80% }
 
-<span style="color:red"> The Timings have to be updated! Now the values are just fake values </span>
-
 <center>
 Table: Bit Timing
 
 | Symbol | Description | Min | Typ | Max | Unit |
 |:---:|:---|:---|:---:|---:|---:|
-| EN | Enable | 10 | 10 | 80 | ms |
-| TR | Time to read | 90 | 100 | 110 | ms |
-| TN | Time to new bit | 10| 200 | 220 | ms |  
+| EN | Enable | 150 | 450 | 3100 | us |
+| TR | Time to read | 350 | 505 | 680 | us |
+| TN | Time to new bit | 150| 1500 | 6600 | us |  
 
 </center>
 
@@ -118,12 +116,6 @@ Table: Digit Register Bit Assignement
 </center>
 
 ![Seven Segments\label{command}](documents/images/seven_segments.png){ width=50% }
-
-
-## To-Do
-- [x] Implement power off the segments (Bit 6 of option register)
-- [ ] Update Bit-Timing with the right value
-
 
 
 ---
