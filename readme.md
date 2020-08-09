@@ -117,6 +117,9 @@ Table: Digit Register Bit Assignement
 
 ![Seven Segments\label{command}](documents/images/seven_segments.png){ width=50% }
 
+## State Machine
+
+![State Machine\label{state_machine}](documents/images/state.png){ width=80% }
 
 ---
 title: "One Wire Driver for the PIC16F54 7 segments display"
