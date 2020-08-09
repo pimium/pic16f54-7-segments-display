@@ -5,6 +5,7 @@
  * Created on October 3, 2019, 8:27 AM
  */
 
+#include "crc.h"
 #include <stdint.h>
 #include <xc.h>
 
@@ -13,8 +14,18 @@
 #pragma config WDT = OFF // Watchdog timer enable bit (WDT disabled)
 #pragma config CP = OFF  // Code protection bit (Code protection off)
 
-enum states { IDLE, WAIT_FALLING_EDGE, WAIT_DATA, WAIT_HIGH_PULS };
-// static uint8_t en = 0;
+enum states {
+  IDLE,
+  WAIT_FALLING_EDGE,
+  WAIT_DATA,
+  WAIT_HIGH_PULS,
+  EXTRACT_BYTE
+};
+
+struct {
+  uint8_t bit : 4;
+  uint8_t character : 4;
+} count;
 
 void main(void) {
 
@@ -25,11 +36,13 @@ void main(void) {
   TRISB = 0x00;
 
   uint8_t segments[4] = {0x00, 0xff, 0xff, 0xff};
+  uint8_t registers[3] = {0x00, 0x00, 0x00};
   volatile uint8_t digit = 0;
   volatile enum states state = IDLE;
-  volatile uint8_t count = 0;
-  volatile uint8_t char_count = 15;
-  volatile uint16_t character = 0;
+  volatile uint8_t loop_count = 0;
+  count.bit = 7;
+  count.character = 0;
+  volatile uint8_t character = 0;
   volatile uint8_t update_display = 0x00;
 
   while (1) {
@@ -50,7 +63,7 @@ void main(void) {
       PORTA = (1 << digit);
       PORTB = segments[digit + 1];
       digit++;
-      update_display = 0x3f;
+      update_display = 0x3F;
     }
 
     if (digit == 3)
@@ -60,58 +73,72 @@ void main(void) {
     case IDLE:
       if (PORTAbits.RA3 == 0) {
         character = 0;
-        char_count = 15;
-        count = 0x08;
+        count.bit = 7;
+        loop_count = 0x08;
         state = WAIT_DATA;
       }
 
       break;
     case WAIT_FALLING_EDGE:
-      if (count == 0x00) {
+      if (loop_count == 0x00) {
+        count.character = 0;
         state = IDLE;
       } else {
-        if (char_count == 0) {
-          segments[(character >> 8) & 0x03] = character & 0xff;
-          state = IDLE;
+        if (count.bit == 0) {
+          state = EXTRACT_BYTE;
         }
 
         if (PORTAbits.RA3 == 0) {
           character = character << 1;
-          char_count--;
-          count = 0x08;
+          count.bit--;
+          loop_count = 0x08;
           state = WAIT_DATA;
         }
 
-        count--;
+        loop_count--;
       }
       break;
+
+    case EXTRACT_BYTE:
+      if (count.character != ((uint8_t)sizeof(registers))) {
+        registers[count.character] = character;
+        count.character++;
+      }
+      if (count.character == ((uint8_t)sizeof(registers))) {
+        segments[registers[0]] = registers[1];
+        count.character = 0;
+      }
+      state = IDLE;
+      break;
+
     case WAIT_HIGH_PULS:
       if (PORTAbits.RA3 != 0) {
-        count = 0x30;
+        loop_count = 0x30;
         state = WAIT_FALLING_EDGE;
       } else {
 
-        if (count == 0x00) {
+        if (loop_count == 0x00) {
+          count.character = 0;
           state = IDLE;
         } else {
-          count--;
+          loop_count--;
         }
       }
 
       break;
     case WAIT_DATA:
-      if (count == 0) {
+      if (loop_count == 0) {
         if (PORTAbits.RA3 != 0) {
           character++;
-          count = 0x50;
+          loop_count = 0x50;
           state = WAIT_FALLING_EDGE;
         } else {
-          count = 0x20;
+          loop_count = 0x20;
           state = WAIT_HIGH_PULS;
         }
 
       } else {
-        count--;
+        loop_count--;
       }
 
       break;
